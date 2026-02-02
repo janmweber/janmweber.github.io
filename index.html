@@ -1,208 +1,45 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Java Kompilerfehler - Übungen</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f4f4f9;
-        }
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-        }
-        .exercise-card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-        h2 {
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-            margin-top: 0;
-            color: #2980b9;
-        }
-        .code-block {
-            background-color: #2d2d2d;
-            color: #f8f8f2;
-            padding: 15px;
-            border-radius: 5px;
-            overflow-x: auto;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 14px;
-            line-height: 1.5;
-            counter-reset: line;
-        }
-        .code-line {
-            display: block;
-        }
-        .code-line::before {
-            counter-increment: line;
-            content: counter(line);
-            display: inline-block;
-            width: 25px;
-            margin-right: 15px;
-            color: #75715e;
-            text-align: right;
-            border-right: 1px solid #555;
-            padding-right: 5px;
-        }
-        .error-box {
-            background-color: #fff0f0;
-            border-left: 5px solid #e74c3c;
-            padding: 15px;
-            margin: 15px 0;
-            font-family: 'Consolas', monospace;
-            font-size: 13px;
-        }
-        .error-title {
-            font-weight: bold;
-            color: #c0392b;
-            margin-bottom: 5px;
-            display: block;
-        }
-        button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background 0.3s;
-        }
-        button:hover {
-            background-color: #2980b9;
-        }
-        .solution {
-            display: none; /* Initial versteckt */
-            margin-top: 20px;
-            border-top: 1px solid #eee;
-            padding-top: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-            vertical-align: top;
-        }
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-    </style>
-</head>
-<body>
-
-    <h1>Java Kompilerfehler Training</h1>
-    <p style="text-align: center;">Finden Sie die Fehlerursachen basierend auf dem Code und der Kompilerausgabe.</p>
-
-    <div class="exercise-card">
-        <h2>Aufgabe A: Schleifen und Typen (ähnlich wie Übungsblatt 4 Aufgabe 15)</h2>
+<div class="exercise-card">
+        <h2>Aufgabe E: Komplexe Fehleranalyse (Umfangreich)</h2>
+        <p>Analysieren Sie den Code der Klasse <code>DatenManager</code>. Er enthält fünf verschiedene Kompilerfehler.</p>
         
         <div class="code-block">
-<span class="code-line">public class Rechner {</span>
+<span class="code-line">public class DatenManager {</span>
 <span class="code-line">  public static void main(String[] args) {</span>
-<span class="code-line">    final int grenze = 5;</span>
-<span class="code-line">    int ergebnis;</span>
-<span class="code-line">    grenze = 10;</span>
-<span class="code-line">    for (int i = 0; i < grenze i++) {</span>
-<span class="code-line">      ergebnis += i;</span>
+<span class="code-line">    double[] messwerte = {1.2, 3.5, 4.8};</span>
+<span class="code-line">    int summe;</span>
+<span class="code-line">    </span>
+<span class="code-line">    for (int i = 0; i <= messwerte.length; i++) {</span>
+<span class="code-line">      summe = summe + messwerte[i];</span>
 <span class="code-line">    }</span>
-<span class="code-line">    boolean check = 1;</span>
-<span class="code-line">    System.out.println(ergebnis);</span>
-<span class="code-line">  }</span>
-<span class="code-line">}</span>
-        </div>
-
-        <div class="error-box">
-            <span class="error-title">Kompilerausgabe:</span>
-            1. Rechner.java:5: error: cannot assign a value to final variable grenze<br>
-            2. Rechner.java:6: error: ';' expected<br>
-            3. Rechner.java:7: error: variable ergebnis might not have been initialized<br>
-            4. Rechner.java:9: error: incompatible types: int cannot be converted to boolean
-        </div>
-
-        <button onclick="toggleSolution('sol-a', this)">Lösung anzeigen</button>
-
-        <div id="sol-a" class="solution">
-            <h3>Lösungsvorschlag</h3>
-            <table>
-                <tr>
-                    <th>Zeile</th>
-                    <th>Fehlerursache</th>
-                    <th>Korrektur</th>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Variable <code>grenze</code> ist <code>final</code>, darf also nicht geändert werden.</td>
-                    <td>Zeile 5 löschen oder <code>final</code> entfernen.</td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>Semikolon fehlt im Schleifenkopf.</td>
-                    <td><code>for (int i=0; i&lt;grenze; i++)</code></td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td><code>ergebnis</code> wird gelesen (+=), ist aber nicht initialisiert.</td>
-                    <td>In Zeile 4: <code>int ergebnis = 0;</code></td>
-                </tr>
-                <tr>
-                    <td>9</td>
-                    <td>Zahl (1) kann nicht in <code>boolean</code> umgewandelt werden.</td>
-                    <td><code>boolean check = true;</code></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-
-    <div class="exercise-card">
-        <h2>Aufgabe B: Arrays und Syntax (ähnlich wie Übungsblatt 4 Aufgabe 15)</h2>
-        
-        <div class="code-block">
-<span class="code-line">public class ArrayTest {</span>
-<span class="code-line">  public static void main(String[] args) {</span>
-<span class="code-line">    double[] zahlen = new double[3];</span>
-<span class="code-line">    zahlen[0] = 1.5;</span>
-<span class="code-line">    int index = 0;</span>
-<span class="code-line">    int wert = zahlen[index];</span>
-<span class="code-line">    if (wert = 1) {</span>
-<span class="code-line">      System.out.prntln("Gefunden");</span>
+<span class="code-line">    </span>
+<span class="code-line">    String info = "Ergebnis: " + summe;</span>
+<span class="code-line">    if (summe > 10) {</span>
+<span class="code-line">      boolean status = true;</span>
 <span class="code-line">    }</span>
-<span class="code-line">    flot f = 1.0f;</span>
+<span class="code-line">    </span>
+<span class="code-line">    System.out.println(info + " Status: " + status);</span>
+<span class="code-line">    checkLimit(summe);</span>
+<span class="code-line">  }</span>
+<span class="code-line">  </span>
+<span class="code-line">  public static void checkLimit(int s) {</span>
+<span class="code-line">    if (s > 100) return true;</span>
+<span class="code-line">    else return false;</span>
 <span class="code-line">  }</span>
 <span class="code-line">}</span>
         </div>
 
         <div class="error-box">
             <span class="error-title">Kompilerausgabe:</span>
-            1. ArrayTest.java:6: error: incompatible types: possible lossy conversion from double to int<br>
-            2. ArrayTest.java:7: error: incompatible types: int cannot be converted to boolean<br>
-            3. ArrayTest.java:8: error: cannot find symbol (method prntln)<br>
-            4. ArrayTest.java:10: error: cannot find symbol (class flot)
+            1. DatenManager.java:6: error: variable summe might not have been initialized<br>
+            2. DatenManager.java:6: error: incompatible types: possible lossy conversion from double to int<br>
+            3. DatenManager.java:14: error: cannot find symbol: variable status<br>
+            4. DatenManager.java:19: error: incompatible types: unexpected return value (true)<br>
+            5. DatenManager.java:20: error: incompatible types: unexpected return value (false)
         </div>
 
-        <button onclick="toggleSolution('sol-b', this)">Lösung anzeigen</button>
+        <button onclick="toggleSolution('sol-e', this)">Lösung anzeigen</button>
 
-        <div id="sol-b" class="solution">
+        <div id="sol-e" class="solution">
             <h3>Lösungsvorschlag</h3>
             <table>
                 <tr>
@@ -212,149 +49,29 @@
                 </tr>
                 <tr>
                     <td>6</td>
-                    <td><code>double</code> Array-Wert passt nicht in <code>int</code> Variable.</td>
-                    <td>Casten: <code>(int) zahlen[index]</code> oder Typ ändern.</td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>Zuweisung <code>=</code> statt Vergleich <code>==</code>. if braucht boolean.</td>
-                    <td><code>if (wert == 1)</code></td>
-                </tr>
-                <tr>
-                    <td>8</td>
-                    <td>Tippfehler: <code>prntln</code> existiert nicht.</td>
-                    <td><code>System.out.println(...)</code></td>
-                </tr>
-                <tr>
-                    <td>10</td>
-                    <td>Tippfehler: <code>flot</code> existiert nicht.</td>
-                    <td><code>float f = 1.0f;</code></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-
-    <div class="exercise-card">
-        <h2>Aufgabe C: Scope und Methoden (etwas komplexer als in der Übung)</h2>
-        
-        <div class="code-block">
-<span class="code-line">public class ScopeTest {</span>
-<span class="code-line">  public static void main(String[] args) {</span>
-<span class="code-line">    if (true) {</span>
-<span class="code-line">      int temp = 10;</span>
-<span class="code-line">    }</span>
-<span class="code-line">    System.out.println(temp);</span>
-<span class="code-line">    druckeZahl();</span>
-<span class="code-line">  }</span>
-<span class="code-line">  public static void druckeZahl(int n) {</span>
-<span class="code-line">    System.out.println(n);</span>
-<span class="code-line">    return n;</span>
-<span class="code-line">  }</span>
-<span class="code-line">}</span>
-        </div>
-
-        <div class="error-box">
-            <span class="error-title">Kompilerausgabe:</span>
-            1. ScopeTest.java:6: error: cannot find symbol: variable temp<br>
-            2. ScopeTest.java:7: error: method druckeZahl cannot be applied to given types<br>
-            3. ScopeTest.java:12: error: incompatible types: unexpected return value
-        </div>
-
-        <button onclick="toggleSolution('sol-c', this)">Lösung anzeigen</button>
-
-        <div id="sol-c" class="solution">
-            <h3>Lösungsvorschlag</h3>
-            <table>
-                <tr>
-                    <th>Zeile</th>
-                    <th>Fehlerursache</th>
-                    <th>Korrektur</th>
+                    <td><b>Initialisierung:</b> <code>summe</code> wird für eine Berechnung genutzt (<code>summe + ...</code>), hat aber noch keinen Startwert.</td>
+                    <td><code>int summe = 0;</code> in Zeile 4.</td>
                 </tr>
                 <tr>
                     <td>6</td>
-                    <td>Scope: <code>temp</code> existiert nur im if-Block.</td>
-                    <td><code>int temp</code> vor dem if-Block deklarieren.</td>
+                    <td><b>Typkonflikt:</b> Ein <code>double</code> aus dem Array kann nicht ohne Cast in ein <code>int</code> gespeichert werden[cite: 82].</td>
+                    <td><code>summe = summe + (int)messwerte[i];</code></td>
                 </tr>
                 <tr>
-                    <td>7</td>
-                    <td>Methode erwartet <code>int</code> Argument, keines gegeben.</td>
-                    <td><code>druckeZahl(5);</code></td>
+                    <td>14</td>
+                    <td><b>Scope:</b> Die Variable <code>status</code> wurde innerhalb des <code>if</code>-Blocks deklariert und ist außerhalb nicht sichtbar.</td>
+                    <td><code>boolean status = false;</code> vor dem <code>if</code>-Block deklarieren.</td>
                 </tr>
                 <tr>
-                    <td>12</td>
-                    <td>Methode ist <code>void</code>, darf nichts zurückgeben.</td>
-                    <td><code>return n;</code> entfernen oder Rückgabetyp ändern.</td>
+                    <td>19/20</td>
+                    <td><b>Rückgabetyp:</b> Die Methode ist als <code>void</code> deklariert, versucht aber <code>boolean</code>-Werte zurückzugeben.</td>
+                    <td>Methodenkopf ändern: <code>public static boolean checkLimit...</code></td>
+                </tr>
+                <tr>
+                    <td>-</td>
+                    <td><b>Laufzeitfehler-Hinweis (Bonus):</b> Zeile 5 würde einen <code>ArrayIndexOutOfBoundsException</code> auslösen, da <code>i <= length</code> auf einen Index zugreift, der nicht existiert.</td>
+                    <td>Ändern zu <code>i < messwerte.length</code>.</td>
                 </tr>
             </table>
         </div>
     </div>
-
-    <div class="exercise-card">
-        <h2>Aufgabe D: Static und Variablen (etwas komplexer als in der Übung)</h2>
-        
-        <div class="code-block">
-<span class="code-line">public class StaticTest {</span>
-<span class="code-line">  int globalWert = 99;</span>
-<span class="code-line"></span>
-<span class="code-line">  public static void main(String[] args) {</span>
-<span class="code-line">    globalWert = 100;</span>
-<span class="code-line">    berechne(5.5);</span>
-<span class="code-line">  }</span>
-<span class="code-line">  public static void berechne(int x) {</span>
-<span class="code-line">    int x = 10;</span>
-<span class="code-line">    System.out.println(x);</span>
-<span class="code-line">  }</span>
-<span class="code-line">}</span>
-        </div>
-
-        <div class="error-box">
-            <span class="error-title">Kompilerausgabe:</span>
-            1. StaticTest.java:5: error: non-static variable globalWert cannot be referenced from a static context<br>
-            2. StaticTest.java:6: error: incompatible types: possible lossy conversion from double to int<br>
-            3. StaticTest.java:10: error: variable x is already defined in method berechne(int)
-        </div>
-
-        <button onclick="toggleSolution('sol-d', this)">Lösung anzeigen</button>
-
-        <div id="sol-d" class="solution">
-            <h3>Lösungsvorschlag</h3>
-            <table>
-                <tr>
-                    <th>Zeile</th>
-                    <th>Fehlerursache</th>
-                    <th>Korrektur</th>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Zugriff auf Instanz-Variable aus statischer Methode.</td>
-                    <td>Variable static machen: <code>static int globalWert...</code></td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>Typkonflikt: <code>double</code> (5.5) an <code>int</code> Parameter.</td>
-                    <td>Aufruf ändern: <code>berechne(5);</code></td>
-                </tr>
-                <tr>
-                    <td>10</td>
-                    <td>Name <code>x</code> doppelt vergeben (Parameter & lokale Var).</td>
-                    <td>Lokale Variable umbenennen oder nur Zuweisung machen.</td>
-                </tr>
-            </table>
-        </div>
-    </div>
-
-    <script>
-        function toggleSolution(id, btn) {
-            var x = document.getElementById(id);
-            if (x.style.display === "block") {
-                x.style.display = "none";
-                btn.innerHTML = "Lösung anzeigen";
-            } else {
-                x.style.display = "block";
-                btn.innerHTML = "Lösung verbergen";
-            }
-        }
-    </script>
-
-</body>
-</html>

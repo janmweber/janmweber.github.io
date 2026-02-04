@@ -375,11 +375,11 @@
 
         <div class="error-box">
             <span class="error-title">Kompilerausgabe:</span>
-            1. DatenManager.java:6: error: variable summe might not have been initialized<br>
-            2. DatenManager.java:6: error: incompatible types: possible lossy conversion from double to int<br>
-            3. DatenManager.java:14: error: cannot find symbol: variable status<br>
-            4. DatenManager.java:19: error: incompatible types: unexpected return value (true)<br>
-            5. DatenManager.java:20: error: incompatible types: unexpected return value (false)
+            1. DatenManager.java:7: error: variable summe might not have been initialized<br>
+            2. DatenManager.java:7: error: incompatible types: possible lossy conversion from double to int<br>
+            3. DatenManager.java:15: error: cannot find symbol: variable status<br>
+            4. DatenManager.java:20: error: incompatible types: unexpected return value<br>
+            5. DatenManager.java:21: error: incompatible types: unexpected return value
         </div>
 
         <button onclick="toggleSolution('sol-e', this)">Lösung anzeigen</button>
@@ -393,29 +393,24 @@
                     <th>Korrektur</th>
                 </tr>
                 <tr>
-                    <td>6</td>
-                    <td><b>Initialisierung:</b> <code>summe</code> wird für eine Berechnung genutzt (<code>summe + ...</code>), hat aber noch keinen Startwert.</td>
+                    <td>7</td>
+                    <td><b>Initialisierung:</b> <code>summe</code> wird gelesen (<code>summe + ...</code>), hat aber noch keinen Startwert.</td>
                     <td><code>int summe = 0;</code> in Zeile 4.</td>
                 </tr>
                 <tr>
-                    <td>6</td>
-                    <td><b>Typkonflikt:</b> Ein <code>double</code> aus dem Array kann nicht ohne Cast in ein <code>int</code> gespeichert werden[cite: 82].</td>
-                    <td><code>summe = summe + (int)messwerte[i];</code></td>
+                    <td>7</td>
+                    <td><b>Typkonflikt:</b> <code>messwerte</code> sind <code>double</code>. Das Ergebnis der Addition ist <code>double</code> und passt nicht in <code>int</code>.</td>
+                    <td>Casten: <code>(int)messwerte[i]</code> oder Datentyp von <code>summe</code> ändern.</td>
                 </tr>
                 <tr>
-                    <td>14</td>
-                    <td><b>Scope:</b> Die Variable <code>status</code> wurde innerhalb des <code>if</code>-Blocks deklariert und ist außerhalb nicht sichtbar.</td>
-                    <td><code>boolean status = false;</code> vor dem <code>if</code>-Block deklarieren.</td>
+                    <td>15</td>
+                    <td><b>Scope (Sichtbarkeit):</b> Die Variable <code>status</code> existiert nur innerhalb des <code>if</code>-Blocks (Zeilen 11-13).</td>
+                    <td><code>boolean status = false;</code> vor dem if-Block deklarieren.</td>
                 </tr>
                 <tr>
-                    <td>19/20</td>
-                    <td><b>Rückgabetyp:</b> Die Methode ist als <code>void</code> deklariert, versucht aber <code>boolean</code>-Werte zurückzugeben.</td>
-                    <td>Methodenkopf ändern: <code>public static boolean checkLimit...</code></td>
-                </tr>
-                <tr>
-                    <td>-</td>
-                    <td><b>Laufzeitfehler-Hinweis (Bonus):</b> Zeile 5 würde einen <code>ArrayIndexOutOfBoundsException</code> auslösen, da <code>i <= length</code> auf einen Index zugreift, der nicht existiert.</td>
-                    <td>Ändern zu <code>i < messwerte.length</code>.</td>
+                    <td>20/21</td>
+                    <td><b>Rückgabetyp:</b> Die Methode ist <code>void</code>, darf also keine Werte (true/false) zurückgeben.</td>
+                    <td>Methodenkopf ändern zu: <code>public static boolean checkLimit...</code></td>
                 </tr>
             </table>
         </div>

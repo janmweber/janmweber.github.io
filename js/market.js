@@ -12,7 +12,7 @@
   const SIG = 0.0006, MU = 0.00024, HAZARD = 1 / 35;
   const LEV = 20, START = 1000, GOAL = 1200, STOP = 150, MARGIN_CALL = 750;
   const KEY = 'jw-contact-unlocked';
-  const UP = '#ece8df', DN = '#c23a33';
+  const UP = '#e9e7d2', DN = '#8c7cf0';
 
   const gauss = () => Math.sqrt(-2 * Math.log(1 - Math.random())) * Math.cos(2 * Math.PI * Math.random());
   const eur = n => (n < -0.004 ? '−' : '') + '€' + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -193,7 +193,7 @@
     return (n < 1.5 ? 1 : n < 2.25 ? 2 : n < 3.5 ? 2.5 : n < 7.5 ? 5 : 10) * mag;
   }
 
-  function tag(y, text, bg, fg = bg === UP ? '#121110' : '#fff') {
+  function tag(y, text, bg, fg = bg === UP ? '#1b1a19' : '#fff') {
     ctx.fillStyle = bg;
     ctx.fillRect(W - AXIS, Math.round(y - 9), AXIS, 18);
     ctx.fillStyle = fg;
@@ -236,20 +236,20 @@
 
     // grid + axis labels
     const st = niceStep(hi - lo);
-    for (let i = 1; i < 6; i++) { const x = Math.round(plotW * i / 6) + 0.5; ctx.strokeStyle = '#1e1c1a'; ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+    for (let i = 1; i < 6; i++) { const x = Math.round(plotW * i / 6) + 0.5; ctx.strokeStyle = 'rgba(233,231,210,.04)'; ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
     for (let v = Math.ceil(lo / st) * st; v < hi; v += st) {
       const y = Y(v);
       if (y < TOP - 4 || y > H - 4) continue;
-      hline(y, '#24221f', []);
-      ctx.fillStyle = '#8c8c8c'; ctx.fillText(v.toFixed(2), W - AXIS + 8, y);
+      hline(y, 'rgba(233,231,210,.07)', []);
+      ctx.fillStyle = '#9d97ad'; ctx.fillText(v.toFixed(2), W - AXIS + 8, y);
     }
-    ctx.strokeStyle = '#2c2a27'; ctx.beginPath(); ctx.moveTo(plotW + 0.5, 0); ctx.lineTo(plotW + 0.5, H); ctx.stroke();
+    ctx.strokeStyle = 'rgba(233,231,210,.14)'; ctx.beginPath(); ctx.moveTo(plotW + 0.5, 0); ctx.lineTo(plotW + 0.5, H); ctx.stroke();
 
     // open-position P&L zone
     if (G.phase === 'open') {
       const m = G.markers[G.markers.length - 1], xi = Math.max(0, X(m.id - cs[0].id));
       const yE = Y(G.entry), yP = Y(disp), good = G.side * (disp - G.entry) >= 0;
-      ctx.fillStyle = good ? 'rgba(236,232,223,.07)' : 'rgba(194,58,51,.13)';
+      ctx.fillStyle = good ? 'rgba(200,199,147,.09)' : 'rgba(110,96,230,.16)';
       ctx.fillRect(xi, Math.min(yE, yP), plotW - xi, Math.abs(yP - yE));
     }
 
@@ -278,7 +278,7 @@
     // position lines
     const tags = [];
     if (G.phase === 'open') {
-      hline(Y(G.entry), '#8c8c8c', [4, 4]); tags.push([Y(G.entry), G.entry.toFixed(2), '#333']);
+      hline(Y(G.entry), '#9d97ad', [4, 4]); tags.push([Y(G.entry), G.entry.toFixed(2), '#3F2548']);
       const tp = tpPrice(), sl = slPrice();
       hline(Y(tp), UP, [6, 4]); tags.push([Y(tp), 'TP ' + tp.toFixed(2), UP]);
       hline(Y(sl), DN, [6, 4]); tags.push([Y(sl), 'SL ' + sl.toFixed(2), DN]);
@@ -294,11 +294,11 @@
     if (hover && hover.x < plotW && hover.y > 0 && hover.y < H) {
       hi_i = clamp(Math.floor(hover.x / cw), 0, cs.length - 1);
       const x = Math.round(X(hi_i)) + 0.5;
-      ctx.strokeStyle = '#555'; ctx.setLineDash([3, 3]);
+      ctx.strokeStyle = '#6a6480'; ctx.setLineDash([3, 3]);
       ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
       ctx.setLineDash([]);
-      hline(hover.y, '#555', [3, 3]);
-      tags.push([hover.y, V(hover.y).toFixed(2), '#555']);
+      hline(hover.y, '#6a6480', [3, 3]);
+      tags.push([hover.y, V(hover.y).toFixed(2), '#6a6480']);
     }
     for (const t of tags) tag(...t);
 
@@ -307,8 +307,8 @@
     let lx = 12;
     const put = (txt, col) => { ctx.fillStyle = col; ctx.fillText(txt, lx, 15); lx += ctx.measureText(txt).width; };
     const narrow = plotW < 440;
-    if (!narrow) put('JWBR/EUR · 0.5s   ', '#8c8c8c');
-    for (const [k, v] of [['O', hc.o], ['H', Math.max(hc.h, hcC)], ['L', Math.min(hc.l, hcC)], ['C', hcC]]) { put(k + ' ', '#8c8c8c'); put(v.toFixed(2) + (narrow ? ' ' : '  '), lc); }
+    if (!narrow) put('JWBR/EUR · 0.5s   ', '#9d97ad');
+    for (const [k, v] of [['O', hc.o], ['H', Math.max(hc.h, hcC)], ['L', Math.min(hc.l, hcC)], ['C', hcC]]) { put(k + ' ', '#9d97ad'); put(v.toFixed(2) + (narrow ? ' ' : '  '), lc); }
   }
 
   /* ---------------- init (called by main.js once the DOM shell exists) ---------------- */
@@ -324,7 +324,9 @@
     D.close.addEventListener('click', () => close());
     D.reset.addEventListener('click', reset);
     document.addEventListener('keydown', e => {
-      if (!JW.gameVisible || e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const r = cv.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > window.innerHeight) return; // only while the chart is on screen
       if (e.target.closest && e.target.closest('input,textarea,select')) return;
       const k = e.key.toLowerCase();
       if (k === 'l' && G.phase === 'idle') open(1);

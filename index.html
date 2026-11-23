@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Jan Weber · Mathematics & Quant Research</title>
-<meta name="description" content="Jan Weber — mathematics student at KIT, aiming for quantitative research.">
+<title>Jan Weber · Mathematics, Stochastics & Statistics</title>
+<meta name="description" content="Jan Weber — mathematics student at KIT. Strengths: stochastics and statistics.">
 <meta name="theme-color" content="#1b1a19">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,6 @@
 <body>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="star" viewBox="0 0 100 100"><path d="M50 0C52 36 64 48 100 50C64 52 52 64 50 100C48 64 36 52 0 50C36 48 48 36 50 0Z"/></symbol>
 </svg>
 
 <!-- ============ TOP BAR (poster style) ============ -->
@@ -42,35 +41,28 @@
 
   <!-- ============ HERO ============ -->
   <section class="hero wrap" id="top">
-    <canvas class="hero-art" data-sculpt="trefoil" data-ghost="1" data-speed="0.12" aria-hidden="true"></canvas>
+    <canvas class="hero-art" data-portrait="images/jan.png" role="img" aria-label="Jan Weber at a desk, head in hand, working through a problem"></canvas>
     <h1 class="title"><span class="tl tl-1">Jan</span><span class="tl tl-2">Weber</span></h1>
     <div class="hero-foot">
-      <p class="cap hero-lede"><span class="live-dot"></span>Open to offers<br>Math student at KIT. I want to work in quantitative research.</p>
+      <p class="cap hero-lede"><span class="live-dot"></span>Open to offers<br>Math student at KIT. My strengths are stochastics and statistics.</p>
       <div class="hero-right">
         <p class="cap dim">Karlsruhe · Winter 2026</p>
         <a class="pill pill-wide" href="#contact">Get in touch</a>
       </div>
     </div>
-    <svg class="star star-hero" aria-hidden="true"><use href="#star"/></svg>
   </section>
 
   <!-- ============ STATEMENT (poster middle) ============ -->
   <section class="statement wrap" id="about">
-    <svg class="star star-statement" aria-hidden="true"><use href="#star"/></svg>
     <h2 class="stagger rv">
       <span>Where theory</span>
       <span class="s-2">meets data,</span>
       <span class="s-3">I feel at home</span>
     </h2>
     <div class="statement-grid">
-      <figure class="statement-img rv">
-        <div class="red-block"></div>
-        <canvas class="sculpt-static" data-sculpt="mixture" data-speed="0.05" aria-hidden="true"></canvas>
-        <figcaption class="cap dim">Fig. 1 — a bimodal density, stippled</figcaption>
-      </figure>
       <div class="statement-text rv">
         <p>I study mathematics at KIT. I like problems where theory meets data.</p>
-        <p>That’s why I want to work as a quant.</p>
+        <p>My strengths are stochastics and statistics.</p>
       </div>
     </div>
   </section>
@@ -106,8 +98,8 @@
         <p class="dim">Bachelor thesis in probability — in progress.</p>
       </div>
       <div class="g g-c">
-        <div class="cap dim">III · Target</div>
-        <p class="g-big">Quant research</p>
+        <div class="cap dim">III · Strengths</div>
+        <p class="g-big">Stochastics &amp; statistics</p>
       </div>
       <div class="g g-d"><span class="phi">φ</span></div>
     </div>
@@ -132,7 +124,6 @@
         <canvas class="art" data-art="vol" aria-hidden="true"></canvas>
         <figcaption><span class="num">03</span><b>Heston calibration</b><span>Fitted a stochastic-volatility model to option prices.</span><em>NumPy · SciPy</em></figcaption>
       </figure>
-      <svg class="star star-work" aria-hidden="true"><use href="#star"/></svg>
       <figure class="tile t-4 rv">
         <canvas class="art" data-art="paths" aria-hidden="true"></canvas>
         <figcaption><span class="num">04</span><b>Bachelor thesis</b><span>Coming soon.</span><em>probability · pending</em></figcaption>
@@ -150,7 +141,7 @@
       </div>
       <div class="stoa-body">
         <p class="stoa-aside" id="q-aside"></p>
-        <canvas class="stoa-art" id="q-art" data-sculpt="sphere" data-color="#dccaa4" data-speed="0.1" aria-hidden="true"></canvas>
+        <canvas class="stoa-art" id="q-art" data-sculpt="sphere" data-color="#ddd6f2" data-speed="0.1" aria-hidden="true"></canvas>
         <div class="stoa-text" aria-live="polite">
           <div class="cap dim" id="q-topic"></div>
           <h2 id="q-name"></h2>
@@ -168,17 +159,32 @@
 
   <!-- ============ SKILLS: info cards ============ -->
   <section class="skills wrap" id="skills">
-    <svg class="star star-skills" aria-hidden="true"><use href="#star"/></svg>
     <header class="sec-head rv">
       <span class="cap dim">VI · Toolkit</span>
       <h2 class="h-display">Skills &amp; tools</h2>
     </header>
-    <div class="cards">
-      <div class="card rv"><span class="tag">Math</span><p>Probability<br>Stochastic processes<br>Statistics<br>Optimisation</p></div>
-      <div class="card rv"><span class="tag">Code</span><p>Python<br>C++<br>SQL<br>Git</p></div>
-      <div class="card rv"><span class="tag">Data</span><p>pandas<br>NumPy<br>scikit-learn<br>PyTorch</p></div>
+    <div class="skill-list">
+      <div class="skill-row rv">
+        <span class="skill-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M17 5H7l6 7-6 7h10"/></svg></span>
+        <span class="skill-k">Math</span>
+        <span class="skill-v">Probability · Stochastic processes · Statistics · Optimisation</span>
+      </div>
+      <div class="skill-row rv">
+        <span class="skill-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg></span>
+        <span class="skill-k">Code</span>
+        <span class="skill-v">Python · C++ · SQL · Git</span>
+      </div>
+      <div class="skill-row rv">
+        <span class="skill-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20h16M7 20v-6M12 20V6M17 20v-9"/></svg></span>
+        <span class="skill-k">Data</span>
+        <span class="skill-v">pandas · NumPy · scikit-learn · PyTorch</span>
+      </div>
+      <div class="skill-row rv">
+        <span class="skill-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.8 3 2.8 15 0 18M12 3c-2.8 3-2.8 15 0 18"/></svg></span>
+        <span class="skill-k">Languages</span>
+        <span class="skill-v">German · English</span>
+      </div>
     </div>
-    <p class="cap dim langs">Languages — German · English</p>
   </section>
 
   <!-- ============ WRITING ============ -->
@@ -230,6 +236,7 @@
           <span class="keys">Keys: <kbd>L</kbd> long · <kbd>S</kbd> short · <kbd>X</kbd> close</span>
         </div>
         <div class="btns">
+          <button class="pill pill-wide pill-ghost" id="g-skip" title="Reveal the contact details without playing">Skip — I’m a recruiter</button>
           <button class="pill pill-wide pill-long" id="g-long">Long ↑</button>
           <button class="pill pill-wide pill-short" id="g-short">Short ↓</button>
           <button class="pill pill-wide" id="g-close" hidden>Close ×</button>
@@ -240,7 +247,7 @@
     </div>
 
     <div class="cards cards-contact">
-      <div class="contacts-head"><span class="cap dim">Contact details</span><button class="link-btn cap" id="g-skip">Skip the game →</button></div>
+      <div class="contacts-head"><span class="cap dim">Contact details</span></div>
       <div id="contact-rows" class="contact-rows"></div>
     </div>
   </section>
@@ -252,7 +259,7 @@
   <div class="wrap">
     <p class="title title-foot" aria-hidden="true"><span class="tl tl-1">Jan</span><span class="tl tl-2">Weber</span></p>
     <div class="foot-meta">
-      <p class="cap dim"><span class="live-dot"></span>Open to offers · Quant research<br>JWBR <span data-bind="quote">100.00</span></p>
+      <p class="cap dim"><span class="live-dot"></span>Open to offers · Stochastics &amp; statistics<br>JWBR <span data-bind="quote">100.00</span></p>
       <p class="cap dim foot-r">Karlsruhe, Germany<br>KIT · Mathematics<br><span id="clock">--:--:--</span></p>
     </div>
     <div class="bar bar-foot">
@@ -262,7 +269,6 @@
       <a class="pill" href="#writing">Writing</a>
       <a class="pill" href="#contact">Contact</a>
     </div>
-    <canvas class="art eye" data-art="eye" aria-hidden="true"></canvas>
   </div>
 </footer>
 

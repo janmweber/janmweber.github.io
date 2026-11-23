@@ -46,7 +46,7 @@
           const t = s / 60, x = x0 + t * len, y = y0 + i * 3.2 + Math.sin(t * Math.PI * 1.6 + i * 0.05) * amp * (0.6 + 0.4 * Math.sin(i * 0.12));
           d += (s ? 'L' : 'M') + x.toFixed(1) + ' ' + y.toFixed(1);
         }
-        out += `<path d="${d}" transform="rotate(${rot} ${x0} ${y0})" fill="none" stroke="#c9b48a" stroke-opacity="${op}" stroke-width=".6"/>`;
+        out += `<path d="${d}" transform="rotate(${rot} ${x0} ${y0})" fill="none" stroke="#b7a8e8" stroke-opacity="${op}" stroke-width=".6"/>`;
       }
     };
     bundle(-80, 640, 620, 70, -18, 26, 0.35);
@@ -185,7 +185,7 @@
   if (JW.initArt) JW.initArt();
   qArt = $('#q-art')._sculpt || null;
   $$('.thumb canvas', thumbs).forEach((cv, i) => {
-    requestAnimationFrame(() => new JW.Sculpture(cv, { shape: QUOTES[i].shape, color: '#dccaa4', static: true, speed: 0, yaw: 0.9 }));
+    requestAnimationFrame(() => new JW.Sculpture(cv, { shape: QUOTES[i].shape, color: '#ddd6f2', static: true, speed: 0, yaw: 0.9 }));
   });
   showQuote(0, false);
   if (JW.initGame) JW.initGame();

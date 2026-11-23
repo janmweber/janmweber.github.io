@@ -7,7 +7,7 @@
   'use strict';
   const JW = (window.JW = window.JW || {});
   const TAU = Math.PI * 2;
-  const BONE = '#ece8df', RED = '#a81d1a', BG = '#121110';
+  const BONE = '#e9e7d2', GHOST = '#4d4fe0', RED = '#a99be0', BG = '#121110';
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function rng(seed) {
@@ -145,7 +145,7 @@
       }
       ctx.clearRect(0, 0, w, h);
       if (this.ghost) {
-        ctx.save(); ctx.translate(8, 5); ctx.globalAlpha = 0.6; ctx.fillStyle = RED; ctx.fill(path); ctx.restore();
+        ctx.save(); ctx.translate(8, 5); ctx.globalAlpha = 0.75; ctx.fillStyle = GHOST; ctx.fill(path); ctx.restore();
       }
       ctx.fillStyle = this.color;
       ctx.fill(path);
@@ -231,42 +231,48 @@
       for (let y = 0; y <= h; y += 2) { const v = Math.exp(-((y - h / 2) ** 2) / (2 * s2 * s2)); const x = bx + bw * v; y ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
       ctx.stroke();
     },
-    // engraved eye strip (poster footer)
-    eye(ctx, w, h, r) {
-      ctx.fillStyle = BG; ctx.fillRect(0, 0, w, h);
-      const cx = w / 2, cy = h * 0.52, a = Math.min(w * 0.17, h * 1.25), b = a * 0.38;
-      const up = (x, A, B) => cy - B * Math.pow(Math.max(0, 1 - (x / A) ** 2), 0.72);
-      const dn = (x, A, B) => cy + B * 0.82 * Math.pow(Math.max(0, 1 - (x / A) ** 2), 0.9);
-      const curve = (fn, A, B) => { ctx.beginPath(); for (let i = 0; i <= 160; i++) { const x = -A + 2 * A * i / 160; const y = fn(x, A, B); i ? ctx.lineTo(cx + x, y) : ctx.moveTo(cx + x, y); } ctx.stroke(); };
-      ctx.strokeStyle = BONE; ctx.lineWidth = 0.8;
-      for (let k = 1; k <= 70; k++) {
-        const A = a * (1 + k * 0.055), B = b * (1 + k * 0.16) + Math.sin(k * 0.7) * 1.5;
-        ctx.globalAlpha = 0.75 * Math.pow(1 - k / 72, 0.8);
-        curve(up, A, B); curve(dn, A, B * 0.9);
+    // grainy flowing light bands with a sparkle (after the blurred-light reference)
+    aura(ctx, w, h, r) {
+      const cv = ctx.canvas, W = cv.width, H = cv.height, img = ctx.createImageData(W, H), d = img.data;
+      const bands = [0, 1, 2, 3].map(k => ({ c: 0.18 + 0.22 * k, a: 0.9 - 0.12 * k, w: 0.1 + 0.04 * r(), p1: r(), p2: r(), f: 0.9 + 0.5 * r() }));
+      const stops = [[0, [18, 17, 16]], [0.3, [53, 54, 156]], [0.58, [124, 103, 158]], [0.8, [190, 180, 210]], [1, [236, 234, 214]]];
+      const ramp = t => {
+        t = Math.max(0, Math.min(1, t));
+        for (let i = 1; i < stops.length; i++) if (t <= stops[i][0]) {
+          const [t0, c0] = stops[i - 1], [t1, c1] = stops[i], q = (t - t0) / (t1 - t0);
+          return [c0[0] + (c1[0] - c0[0]) * q, c0[1] + (c1[1] - c0[1]) * q, c0[2] + (c1[2] - c0[2]) * q];
+        }
+        return stops[stops.length - 1][1];
+      };
+      const sx = 0.56, sy = 0.5;
+      for (let y = 0; y < H; y++) {
+        const v = y / H;
+        for (let x = 0; x < W; x++) {
+          const u = x / W;
+          let I = 0;
+          for (const b of bands) {
+            const c = b.c + 0.09 * Math.sin(TAU * (u * b.f + b.p1)) + 0.04 * Math.sin(TAU * (u * 2.6 + b.p2));
+            const dv = v - c;
+            I += b.a * (dv < 0 ? Math.exp(-((dv / (b.w * 0.4)) ** 2)) : Math.exp(-((dv / b.w) ** 2)));
+          }
+          const edge = Math.min(1, u / 0.1, (1 - u) / 0.1);
+          I *= edge * edge * (3 - 2 * edge);
+          I *= 1 - 0.85 * Math.exp(-(((u - sx) ** 2) / 0.006 + ((v - sy) ** 2) / 0.05));
+          const col = ramp(I * 0.95 + (r() - 0.5) * 0.32);
+          const k = (y * W + x) * 4;
+          d[k] = col[0]; d[k + 1] = col[1]; d[k + 2] = col[2]; d[k + 3] = 255;
+        }
       }
-      ctx.globalAlpha = 1;
-      // almond clip
-      ctx.save(); ctx.beginPath();
-      for (let i = 0; i <= 160; i++) { const x = -a + 2 * a * i / 160; ctx.lineTo(cx + x, up(x, a, b)); }
-      for (let i = 160; i >= 0; i--) { const x = -a + 2 * a * i / 160; ctx.lineTo(cx + x, dn(x, a, b)); }
-      ctx.closePath(); ctx.clip();
-      // sclera hatching
-      ctx.globalAlpha = 0.18;
-      for (let x = -a; x < a; x += 3) { ctx.beginPath(); ctx.moveTo(cx + x, cy - b); ctx.lineTo(cx + x + b * 0.6, cy + b); ctx.stroke(); }
-      ctx.globalAlpha = 1;
-      const R = b * 1.08, icx = cx + a * 0.04, icy = cy + b * 0.08;
-      ctx.fillStyle = BG; ctx.beginPath(); ctx.arc(icx, icy, R, 0, TAU); ctx.fill();
-      for (let i = 0; i < 260; i++) {
-        const t = i / 260 * TAU, r0 = R * (0.4 + 0.04 * r()), r1 = R * (0.86 + 0.12 * r());
-        ctx.globalAlpha = 0.55 + 0.4 * r(); ctx.lineWidth = 0.6 + r() * 0.5;
-        ctx.beginPath(); ctx.moveTo(icx + r0 * Math.cos(t), icy + r0 * Math.sin(t)); ctx.lineTo(icx + r1 * Math.cos(t + 0.04), icy + r1 * Math.sin(t + 0.04)); ctx.stroke();
-      }
-      ctx.globalAlpha = 1; ctx.lineWidth = 2.2; ctx.beginPath(); ctx.arc(icx, icy, R, 0, TAU); ctx.stroke();
-      ctx.fillStyle = BG; ctx.beginPath(); ctx.arc(icx, icy, R * 0.38, 0, TAU); ctx.fill();
-      ctx.fillStyle = BONE; ctx.beginPath(); ctx.arc(icx - R * 0.22, icy - R * 0.24, R * 0.11, 0, TAU); ctx.fill();
-      ctx.restore();
-      ctx.lineWidth = 1.8; curve(up, a, b); curve(dn, a, b);
-      ctx.fillStyle = RED; ctx.fillRect(w - 46, h - 10, 34, 2);
+      ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.putImageData(img, 0, 0); ctx.restore();
+      // sparkle + horizontal flare
+      const px = w * sx, py = h * sy, L = Math.min(w * 0.16, 200), g = ctx.createLinearGradient(px - L, 0, px + L, 0);
+      g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(0.5, 'rgba(255,255,255,.95)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = g; ctx.fillRect(px - L, py - 0.6, 2 * L, 1.2);
+      const s = Math.min(16, h * 0.08);
+      ctx.fillStyle = '#fff'; ctx.shadowColor = 'rgba(200,199,147,.9)'; ctx.shadowBlur = 14;
+      ctx.beginPath(); ctx.moveTo(px, py - s * 1.6); ctx.quadraticCurveTo(px + s * 0.12, py - s * 0.12, px + s, py); ctx.quadraticCurveTo(px + s * 0.12, py + s * 0.12, px, py + s * 1.6);
+      ctx.quadraticCurveTo(px - s * 0.12, py + s * 0.12, px - s, py); ctx.quadraticCurveTo(px - s * 0.12, py - s * 0.12, px, py - s * 1.6); ctx.fill();
+      ctx.shadowBlur = 0;
     },
   };
 
@@ -274,6 +280,66 @@
     const { ctx, w, h } = fit(cv);
     const seed = [...cv.dataset.art].reduce((s, c) => s * 31 + c.charCodeAt(0), 17);
     PLATES[cv.dataset.art](ctx, w, h, rng(seed));
+  }
+
+  /* ================= stippled photo (B&W cut-out → dots) =================
+     <canvas data-portrait="images/x.png">: greyscale PNG with alpha; bright = dense dots.
+     Dots "develop" in when the canvas first scrolls into view. */
+  const imgCache = {};
+  const loadImg = src => (imgCache[src] = imgCache[src] || new Promise((res, rej) => {
+    const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = src;
+  }));
+  class Portrait {
+    constructor(cv) {
+      this.cv = cv;
+      this.p = reduce ? 1 : 0;
+      this.started = reduce;
+      loadImg(cv.dataset.portrait).then(im => { this.img = im; this.resize(); }).catch(() => {});
+    }
+    resize() {
+      if (!this.img) return;
+      Object.assign(this, fit(this.cv));
+      this.cv._w = Math.round(this.w); this.cv._h = Math.round(this.h);
+      const { w, h, img } = this, s = Math.min(w / img.width, h / img.height);
+      const dw = Math.round(img.width * s), dh = Math.round(img.height * s), ox = (w - dw) / 2, oy = h - dh;
+      // Floyd–Steinberg dither on a ~1.7 px grid keeps the face readable while staying "dots"
+      const cell = 1.7, gw = Math.max(1, Math.round(dw / cell)), gh = Math.max(1, Math.round(dh / cell));
+      const oc = document.createElement('canvas'); oc.width = gw; oc.height = gh;
+      const octx = oc.getContext('2d', { willReadFrequently: true });
+      octx.drawImage(img, 0, 0, gw, gh);
+      const px = octx.getImageData(0, 0, gw, gh).data, r = rng(11);
+      const v = new Float32Array(gw * gh), on = new Uint8Array(gw * gh);
+      for (let i = 0; i < gw * gh; i++) {
+        const a = px[i * 4 + 3] / 255;
+        on[i] = a > 0.03 ? 1 : 0;
+        v[i] = Math.pow(Math.max(0, Math.min(1, (px[i * 4] / 255 - 0.04) / 0.92)), 1.15) * a;
+      }
+      const X = [], Y = [], T = [];
+      for (let y = 0; y < gh; y++) for (let x = 0; x < gw; x++) {
+        const i = y * gw + x, old = v[i], nv = old > 0.5 ? 1 : 0, err = old - nv;
+        if (x + 1 < gw) v[i + 1] += err * 7 / 16;
+        if (y + 1 < gh) { if (x > 0) v[i + gw - 1] += err * 3 / 16; v[i + gw] += err * 5 / 16; if (x + 1 < gw) v[i + gw + 1] += err / 16; }
+        if (nv && on[i]) { X.push(ox + x * cell + (r() - 0.5) * 0.5); Y.push(oy + y * cell + (r() - 0.5) * 0.5); T.push(r()); }
+      }
+      this.X = X; this.Y = Y; this.T = T;
+      this.render();
+    }
+    render() {
+      const { ctx, w, h, X, Y, T, p } = this;
+      if (!X) return;
+      const path = new Path2D();
+      for (let i = 0; i < X.length; i++) if (T[i] <= p) path.rect(X[i], Y[i], 1.15, 1.15);
+      ctx.clearRect(0, 0, w, h);
+      ctx.save(); ctx.translate(7, 4); ctx.globalAlpha = 0.75; ctx.fillStyle = GHOST; ctx.fill(path); ctx.restore();
+      ctx.fillStyle = BONE; ctx.fill(path);
+    }
+    reveal() {
+      if (this.started) return;
+      this.started = true;
+      const t0 = performance.now();
+      const step = t => { this.p = Math.min(1, (t - t0) / 1800); this.p = 1 - Math.pow(1 - this.p, 3); this.render(); if (t - t0 < 1800) requestAnimationFrame(step); };
+      requestAnimationFrame(step);
+    }
   }
 
   /* ================= wiring ================= */
@@ -288,14 +354,20 @@
   JW.Sculpture = Sculpture;
   JW.sculpts = sculpts;
   JW.initArt = () => {
-    const io = new IntersectionObserver(es => es.forEach(e => { const s = e.target._sculpt; if (s) s.visible = e.isIntersecting; }), { rootMargin: '100px' });
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      const s = e.target._sculpt; if (s) s.visible = e.isIntersecting;
+      if (e.isIntersecting && e.target._portrait) e.target._portrait.reveal();
+    }), { rootMargin: '100px' });
     const ro = new ResizeObserver(es => es.forEach(e => {
       const cv = e.target, r = e.contentRect;
       if (!r.width || !r.height) return;
       if (cv._w === Math.round(r.width) && cv._h === Math.round(r.height)) return;
       cv._w = Math.round(r.width); cv._h = Math.round(r.height);
-      if (cv._sculpt) cv._sculpt.resize(); else if (cv.dataset.art) drawPlate(cv);
+      if (cv._sculpt) cv._sculpt.resize(); else if (cv._portrait) cv._portrait.resize(); else if (cv.dataset.art) drawPlate(cv);
     }));
+    document.querySelectorAll('canvas[data-portrait]').forEach(cv => {
+      cv._portrait = new Portrait(cv); io.observe(cv); ro.observe(cv);
+    });
     document.querySelectorAll('canvas[data-sculpt]').forEach(cv => {
       const s = new Sculpture(cv);
       cv._sculpt = s; sculpts.push(s); io.observe(cv); ro.observe(cv);

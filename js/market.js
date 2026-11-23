@@ -12,7 +12,7 @@
   const SIG = 0.0006, MU = 0.00024, HAZARD = 1 / 35;
   const LEV = 20, START = 1000, GOAL = 1200, STOP = 150, MARGIN_CALL = 750;
   const KEY = 'jw-contact-unlocked';
-  const UP = '#26a69a', DN = '#ef5350';
+  const UP = '#ece8df', DN = '#c23a33';
 
   const gauss = () => Math.sqrt(-2 * Math.log(1 - Math.random())) * Math.cos(2 * Math.PI * Math.random());
   const eur = n => (n < -0.004 ? '−' : '') + '€' + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -178,7 +178,7 @@
 
   /* ---------------- canvas chart ---------------- */
   const AXIS = 78, TOP = 30, BOT = 10, SLOTS = NC + 3;
-  let cv, ctx, W = 0, H = 0, dpr = 1, hover = null;
+  let cv, ctx, W = 0, H = 0, dpr = 1, hover = null, wasVisible = false;
   const view = { lo: 0, hi: 0, disp: 0, init: false };
 
   function resize() {
@@ -193,7 +193,7 @@
     return (n < 1.5 ? 1 : n < 2.25 ? 2 : n < 3.5 ? 2.5 : n < 7.5 ? 5 : 10) * mag;
   }
 
-  function tag(y, text, bg, fg = '#fff') {
+  function tag(y, text, bg, fg = bg === UP ? '#121110' : '#fff') {
     ctx.fillStyle = bg;
     ctx.fillRect(W - AXIS, Math.round(y - 9), AXIS, 18);
     ctx.fillStyle = fg;
@@ -206,7 +206,10 @@
 
   function draw() {
     requestAnimationFrame(draw);
-    if (JW.page !== 'contact' || !W || !H) return;
+    const vis = !!JW.gameVisible;
+    if (vis && !wasVisible) view.init = false;
+    wasVisible = vis;
+    if (!vis || !W || !H) return;
     const cs = M.candles, last = cs[cs.length - 1];
     if (!view.init) view.disp = last.c;
     view.disp += (last.c - view.disp) * 0.35;
@@ -233,20 +236,20 @@
 
     // grid + axis labels
     const st = niceStep(hi - lo);
-    for (let i = 1; i < 6; i++) { const x = Math.round(plotW * i / 6) + 0.5; ctx.strokeStyle = '#121212'; ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+    for (let i = 1; i < 6; i++) { const x = Math.round(plotW * i / 6) + 0.5; ctx.strokeStyle = '#1e1c1a'; ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
     for (let v = Math.ceil(lo / st) * st; v < hi; v += st) {
       const y = Y(v);
       if (y < TOP - 4 || y > H - 4) continue;
-      hline(y, '#1a1a1a', []);
+      hline(y, '#24221f', []);
       ctx.fillStyle = '#8c8c8c'; ctx.fillText(v.toFixed(2), W - AXIS + 8, y);
     }
-    ctx.strokeStyle = '#1f1f1f'; ctx.beginPath(); ctx.moveTo(plotW + 0.5, 0); ctx.lineTo(plotW + 0.5, H); ctx.stroke();
+    ctx.strokeStyle = '#2c2a27'; ctx.beginPath(); ctx.moveTo(plotW + 0.5, 0); ctx.lineTo(plotW + 0.5, H); ctx.stroke();
 
     // open-position P&L zone
     if (G.phase === 'open') {
       const m = G.markers[G.markers.length - 1], xi = Math.max(0, X(m.id - cs[0].id));
       const yE = Y(G.entry), yP = Y(disp), good = G.side * (disp - G.entry) >= 0;
-      ctx.fillStyle = good ? 'rgba(38,166,154,.10)' : 'rgba(239,83,80,.10)';
+      ctx.fillStyle = good ? 'rgba(236,232,223,.07)' : 'rgba(194,58,51,.13)';
       ctx.fillRect(xi, Math.min(yE, yP), plotW - xi, Math.abs(yP - yE));
     }
 
@@ -314,7 +317,6 @@
     bindDom();
     cv = $('chart'); ctx = cv.getContext('2d');
     new ResizeObserver(resize).observe(cv);
-    JW.onPage = p => { if (p === 'contact') { resize(); view.init = false; } };
     cv.addEventListener('pointermove', e => { const r = cv.getBoundingClientRect(); hover = { x: e.clientX - r.left, y: e.clientY - r.top }; });
     cv.addEventListener('pointerleave', () => (hover = null));
     D.long.addEventListener('click', () => open(1));
@@ -322,12 +324,12 @@
     D.close.addEventListener('click', () => close());
     D.reset.addEventListener('click', reset);
     document.addEventListener('keydown', e => {
-      if (JW.page !== 'contact' || e.metaKey || e.ctrlKey || e.altKey) return;
+      if (!JW.gameVisible || e.metaKey || e.ctrlKey || e.altKey) return;
       if (e.target.closest && e.target.closest('input,textarea,select')) return;
-      const k = e.key;
-      if (k === 'ArrowUp' && G.phase === 'idle') { e.preventDefault(); open(1); }
-      else if (k === 'ArrowDown' && G.phase === 'idle') { e.preventDefault(); open(-1); }
-      else if ((k === ' ' || k === 'x' || k === 'X') && G.phase === 'open' && !(e.target.closest && e.target.closest('button'))) { e.preventDefault(); close(); }
+      const k = e.key.toLowerCase();
+      if (k === 'l' && G.phase === 'idle') open(1);
+      else if (k === 's' && G.phase === 'idle') open(-1);
+      else if (k === 'x' && G.phase === 'open') close();
     });
 
     let stored = false;

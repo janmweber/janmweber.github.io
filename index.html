@@ -3,242 +3,270 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Jan Weber · Quant research</title>
-<meta name="description" content="Jan Weber — math student at KIT, aiming for quantitative research.">
-<meta name="theme-color" content="#000000">
+<title>Jan Weber · Mathematics & Quant Research</title>
+<meta name="description" content="Jan Weber — mathematics student at KIT, aiming for quantitative research.">
+<meta name="theme-color" content="#1b1a19">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<svg id="walks" class="backdrop" viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden="true"></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="star" viewBox="0 0 100 100"><path d="M50 0C52 36 64 48 100 50C64 52 52 64 50 100C48 64 36 52 0 50C36 48 48 36 50 0Z"/></symbol>
+</svg>
 
-<div class="tape mono" aria-hidden="true"><div class="tape-track" id="tape"></div></div>
-
-<div class="wrap">
-
-  <nav class="nav">
-    <a href="#home" class="brand mono">
-      <span class="b-sym">JWBR</span>
-      <span class="muted">Jan Weber</span>
-      <span data-bind="quote" class="up">100.00 +0.00%</span>
-    </a>
-    <div class="nav-links">
-      <a href="#about">About</a>
-      <a href="#projects">Projects</a>
-      <a href="#skills">Skills</a>
-      <a href="#blog">Blog</a>
-      <a href="#contact">Contact</a>
-    </div>
+<!-- ============ TOP BAR (poster style) ============ -->
+<header class="bar wrap">
+  <a class="pill" href="#top">Jan Weber</a>
+  <span class="bar-line" aria-hidden="true"></span>
+  <nav class="bar-links" aria-label="Main">
+    <a class="pill" href="#work">Work</a>
+    <a class="pill" href="#writing">Writing</a>
+    <a class="pill" href="#contact">Contact</a>
   </nav>
+</header>
 
-  <main>
+<!-- vertical section index (Epictetus style) -->
+<nav class="index" aria-label="Sections">
+  <a href="#about" data-spy="about">About</a>
+  <a href="#work" data-spy="work">Work</a>
+  <a href="#principles" data-spy="principles">Principles</a>
+  <a href="#skills" data-spy="skills">Skills</a>
+  <a href="#writing" data-spy="writing">Writing</a>
+  <a href="#contact" data-spy="contact">Contact</a>
+</nav>
 
-    <!-- HOME -->
-    <section data-page="home" class="hero">
-      <div class="eyebrow mono"><span class="dot"></span>Open to offers · Quant research</div>
-      <h1 class="display">Jan Weber</h1>
-      <p class="lede">Math student at KIT. I want to work in quantitative research.</p>
-      <div class="row">
-        <a href="#projects" class="btn btn-solid">Projects</a>
-        <a href="#contact" class="btn btn-ghost">Contact</a>
-      </div>
-      <div class="quote-strip">
-        <div><span class="k mono">University</span><span class="v">KIT Karlsruhe</span></div>
-        <div><span class="k mono">Program</span><span class="v">B.Sc. Mathematics</span></div>
-        <div><span class="k mono">Target</span><span class="v">Quant research</span></div>
-      </div>
-      <div class="formula mono">
-        <span class="rule"></span>
-        <span>θ* = argmax<sub>θ</sub> 𝔼[ R<sub>t+1</sub> | 𝓕<sub>t</sub> ] − λ·Var[ R<sub>t+1</sub> | 𝓕<sub>t</sub> ]</span>
-      </div>
-    </section>
+<main>
 
-    <!-- ABOUT -->
-    <section data-page="about" class="page" hidden>
-      <header class="page-head">
-        <div class="kicker mono">01 / about</div>
-        <h1>About</h1>
-      </header>
-      <p class="body-lg">I study mathematics at KIT. I like problems where theory meets data. That’s why I want to work as a quant.</p>
-      <div class="exp">
-        <div class="table-head mono"><span>Experience</span><span>3 entries</span></div>
-        <div class="exp-row">
-          <div><div class="exp-org">Fraunhofer</div><div class="exp-role mono">Student assistant</div></div>
-          <p>Worked in an applied research team. Analysed data and built models in Python.</p>
-        </div>
-        <div class="exp-row">
-          <div><div class="exp-org">Baden Solutions</div><div class="exp-role mono">Working student</div></div>
-          <p>Built software for clients in a small team. Learned to ship code that others rely on.</p>
-        </div>
-        <div class="exp-row">
-          <div><div class="exp-org">KIT</div><div class="exp-role mono">Tutor, Mathematics</div></div>
-          <p>Led weekly exercise sessions and graded homework. Explaining proofs taught me to think clearly.</p>
-        </div>
+  <!-- ============ HERO ============ -->
+  <section class="hero wrap" id="top">
+    <canvas class="hero-art" data-sculpt="trefoil" data-ghost="1" data-speed="0.12" aria-hidden="true"></canvas>
+    <h1 class="title"><span class="tl tl-1">Jan</span><span class="tl tl-2">Weber</span></h1>
+    <div class="hero-foot">
+      <p class="cap hero-lede"><span class="live-dot"></span>Open to offers<br>Math student at KIT. I want to work in quantitative research.</p>
+      <div class="hero-right">
+        <p class="cap dim">Karlsruhe · Winter 2026</p>
+        <a class="pill pill-wide" href="#contact">Get in touch</a>
       </div>
-    </section>
+    </div>
+    <svg class="star star-hero" aria-hidden="true"><use href="#star"/></svg>
+  </section>
 
-    <!-- PROJECTS -->
-    <section data-page="projects" class="page" hidden>
-      <header class="page-head">
-        <div class="kicker mono">02 / projects</div>
-        <h1>Projects</h1>
-      </header>
-      <div class="panel">
-        <div class="proj-grid table-head mono"><span>#</span><span>Project</span><span class="r">Status</span></div>
-        <div class="proj-grid proj">
-          <span class="mono muted sm">01</span>
-          <span class="proj-body">
-            <span class="proj-title">Volatility forecasting</span>
-            <span class="proj-desc">Compared GARCH models with realised-volatility models on intraday data.</span>
-            <span class="proj-tags mono">Python · time series</span>
-          </span>
-          <span class="r"><span class="badge badge-up">FILLED</span></span>
-        </div>
-        <div class="proj-grid proj">
-          <span class="mono muted sm">02</span>
-          <span class="proj-body">
-            <span class="proj-title">Factor research</span>
-            <span class="proj-desc">Tested momentum and value signals on European stocks.</span>
-            <span class="proj-tags mono">pandas · statistics</span>
-          </span>
-          <span class="r"><span class="badge badge-up">FILLED</span></span>
-        </div>
-        <div class="proj-grid proj">
-          <span class="mono muted sm">03</span>
-          <span class="proj-body">
-            <span class="proj-title">Heston calibration</span>
-            <span class="proj-desc">Fitted a stochastic-volatility model to option prices.</span>
-            <span class="proj-tags mono">NumPy · SciPy</span>
-          </span>
-          <span class="r"><span class="badge badge-up">FILLED</span></span>
-        </div>
-        <div class="proj-grid proj">
-          <span class="mono muted sm">04</span>
-          <span class="proj-body">
-            <span class="proj-title">Bachelor thesis</span>
-            <span class="proj-desc">Coming soon.</span>
-            <span class="proj-tags mono">probability</span>
-          </span>
-          <span class="r"><span class="badge">PENDING</span></span>
-        </div>
+  <!-- ============ STATEMENT (poster middle) ============ -->
+  <section class="statement wrap" id="about">
+    <svg class="star star-statement" aria-hidden="true"><use href="#star"/></svg>
+    <h2 class="stagger rv">
+      <span>Where theory</span>
+      <span class="s-2">meets data,</span>
+      <span class="s-3">I feel at home</span>
+    </h2>
+    <div class="statement-grid">
+      <figure class="statement-img rv">
+        <div class="red-block"></div>
+        <canvas class="sculpt-static" data-sculpt="mixture" data-speed="0.05" aria-hidden="true"></canvas>
+        <figcaption class="cap dim">Fig. 1 — a bimodal density, stippled</figcaption>
+      </figure>
+      <div class="statement-text rv">
+        <p>I study mathematics at KIT. I like problems where theory meets data.</p>
+        <p>That’s why I want to work as a quant.</p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- SKILLS -->
-    <section data-page="skills" class="page" hidden>
-      <header class="page-head">
-        <div class="kicker mono">03 / skills</div>
-        <h1>Skills &amp; tools</h1>
-      </header>
-      <div class="panel">
-        <div class="skill-grid table-head mono"><span>Asset class</span><span>Holdings</span></div>
-        <div class="skill-grid skill"><span class="mono">Math</span><span>Probability, stochastic processes, statistics, optimisation</span></div>
-        <div class="skill-grid skill"><span class="mono">Code</span><span>Python, C++, SQL, Git</span></div>
-        <div class="skill-grid skill"><span class="mono">Data</span><span>pandas, NumPy, scikit-learn, PyTorch</span></div>
-        <div class="skill-grid skill"><span class="mono">Languages</span><span>German, English</span></div>
-      </div>
-    </section>
-
-    <!-- BLOG -->
-    <section data-page="blog" class="page" hidden>
-      <header class="page-head">
-        <div class="kicker mono">04 / blog</div>
-        <h1>Blog</h1>
-      </header>
-      <div class="terminal">
-        <div class="term-bar">
-          <span class="eyebrow mono"><span class="dot dot-sm"></span>Headlines</span>
-          <div class="tabs" id="blog-tabs" role="tablist">
-            <button class="tab is-active" data-filter="All">All</button>
-            <button class="tab" data-filter="STOCH">STOCH</button>
-            <button class="tab" data-filter="PROB">PROB</button>
-            <button class="tab" data-filter="BTEST">BTEST</button>
+  <!-- ============ GOLDEN SPIRAL: experience ============ -->
+  <section class="golden-wrap wrap" aria-label="Experience and education">
+    <div class="golden" id="golden">
+      <svg class="golden-svg" viewBox="0 0 1.618034 1" preserveAspectRatio="none" aria-hidden="true">
+        <path class="g-squares" d=""/>
+        <path class="g-spiral" d="" pathLength="1"/>
+      </svg>
+      <div class="g g-a">
+        <div class="cap dim">I · Experience</div>
+        <div class="exp">
+          <div class="exp-item">
+            <h3>Fraunhofer</h3><div class="cap dim">Student assistant</div>
+            <p>Worked in an applied research team. Analysed data and built models in Python.</p>
+          </div>
+          <div class="exp-item">
+            <h3>Baden Solutions</h3><div class="cap dim">Working student</div>
+            <p>Built software for clients in a small team. Learned to ship code that others rely on.</p>
+          </div>
+          <div class="exp-item">
+            <h3>KIT</h3><div class="cap dim">Tutor, Mathematics</div>
+            <p>Led weekly exercise sessions and graded homework. Explaining proofs taught me to think clearly.</p>
           </div>
         </div>
-        <div class="blog-grid blog-head mono"><span>Date</span><span>Symbol</span><span>Headline</span><span class="r">Read</span></div>
-        <div id="posts">
-          <a href="#blog" class="blog-grid post" data-sym="STOCH">
-            <span class="mono muted xs">2026-10-12</span><span><span class="sym mono">STOCH</span></span>
-            <span class="post-title">Where the extra term in Itô’s lemma comes from <span class="badge badge-up badge-xs">NEW</span></span>
-            <span class="mono muted xs r">6 min</span>
-          </a>
-          <a href="#blog" class="blog-grid post" data-sym="BTEST">
-            <span class="mono muted xs">2026-09-03</span><span><span class="sym mono">BTEST</span></span>
-            <span class="post-title">Why most backtests overfit</span>
-            <span class="mono muted xs r">9 min</span>
-          </a>
-          <a href="#blog" class="blog-grid post" data-sym="PROB">
-            <span class="mono muted xs">2026-08-15</span><span><span class="sym mono">PROB</span></span>
-            <span class="post-title">The Kelly criterion in one page</span>
-            <span class="mono muted xs r">5 min</span>
-          </a>
-          <a href="#blog" class="blog-grid post" data-sym="STOCH">
-            <span class="mono muted xs">2026-07-02</span><span><span class="sym mono">STOCH</span></span>
-            <span class="post-title">Brownian motion from random walks</span>
-            <span class="mono muted xs r">7 min</span>
-          </a>
+      </div>
+      <div class="g g-b">
+        <div class="cap dim">II · Education</div>
+        <h3>Karlsruhe Institute of Technology</h3>
+        <p>B.Sc. Mathematics</p>
+        <p class="dim">Bachelor thesis in probability — in progress.</p>
+      </div>
+      <div class="g g-c">
+        <div class="cap dim">III · Target</div>
+        <p class="g-big">Quant research</p>
+      </div>
+      <div class="g g-d"><span class="phi">φ</span></div>
+    </div>
+  </section>
+
+  <!-- ============ WORK: collage ============ -->
+  <section class="work wrap" id="work">
+    <header class="sec-head rv">
+      <span class="cap dim">IV · Selected work</span>
+      <h2 class="h-display">Projects</h2>
+    </header>
+    <div class="collage">
+      <figure class="tile t-1 rv">
+        <canvas class="art" data-art="ridges" aria-hidden="true"></canvas>
+        <figcaption><span class="num">01</span><b>Volatility forecasting</b><span>Compared GARCH models with realised-volatility models on intraday data.</span><em>Python · time series</em></figcaption>
+      </figure>
+      <figure class="tile t-2 rv">
+        <canvas class="art" data-art="halftone" aria-hidden="true"></canvas>
+        <figcaption><span class="num">02</span><b>Factor research</b><span>Tested momentum and value signals on European stocks.</span><em>pandas · statistics</em></figcaption>
+      </figure>
+      <figure class="tile t-3 rv">
+        <canvas class="art" data-art="vol" aria-hidden="true"></canvas>
+        <figcaption><span class="num">03</span><b>Heston calibration</b><span>Fitted a stochastic-volatility model to option prices.</span><em>NumPy · SciPy</em></figcaption>
+      </figure>
+      <svg class="star star-work" aria-hidden="true"><use href="#star"/></svg>
+      <figure class="tile t-4 rv">
+        <canvas class="art" data-art="paths" aria-hidden="true"></canvas>
+        <figcaption><span class="num">04</span><b>Bachelor thesis</b><span>Coming soon.</span><em>probability · pending</em></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ PRINCIPLES (Epictetus slide) ============ -->
+  <section class="stoa" id="principles">
+    <svg class="stoa-waves" viewBox="0 0 1200 800" preserveAspectRatio="none" aria-hidden="true"></svg>
+    <div class="stoa-inner wrap">
+      <div class="stoa-top">
+        <div class="stoa-brand"><span class="stoa-mark">V</span><span class="cap">Principles<br>worth keeping</span></div>
+        <nav class="stoa-tabs" id="stoa-tabs" aria-label="Principles"></nav>
+      </div>
+      <div class="stoa-body">
+        <p class="stoa-aside" id="q-aside"></p>
+        <canvas class="stoa-art" id="q-art" data-sculpt="sphere" data-color="#dccaa4" data-speed="0.1" aria-hidden="true"></canvas>
+        <div class="stoa-text" aria-live="polite">
+          <div class="cap dim" id="q-topic"></div>
+          <h2 id="q-name"></h2>
+          <blockquote id="q-text"></blockquote>
+          <p id="q-note" class="dim"></p>
+        </div>
+        <div class="stoa-thumbs">
+          <button class="round" id="q-prev" aria-label="Previous principle">←</button>
+          <div class="thumbs" id="q-thumbs"></div>
+          <button class="round" id="q-next" aria-label="Next principle">→</button>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- CONTACT -->
-    <section data-page="contact" class="page" hidden>
-      <header class="page-head">
-        <div class="kicker mono">05 / contact</div>
-        <h1 class="contact-h">Trade to unlock my contact details.</h1>
-        <p class="sub">You have €1,000 at 20× leverage. Grow it to €1,200. Read the trend, pick a side, close when you like.</p>
-      </header>
+  <!-- ============ SKILLS: info cards ============ -->
+  <section class="skills wrap" id="skills">
+    <svg class="star star-skills" aria-hidden="true"><use href="#star"/></svg>
+    <header class="sec-head rv">
+      <span class="cap dim">VI · Toolkit</span>
+      <h2 class="h-display">Skills &amp; tools</h2>
+    </header>
+    <div class="cards">
+      <div class="card rv"><span class="tag">Math</span><p>Probability<br>Stochastic processes<br>Statistics<br>Optimisation</p></div>
+      <div class="card rv"><span class="tag">Code</span><p>Python<br>C++<br>SQL<br>Git</p></div>
+      <div class="card rv"><span class="tag">Data</span><p>pandas<br>NumPy<br>scikit-learn<br>PyTorch</p></div>
+    </div>
+    <p class="cap dim langs">Languages — German · English</p>
+  </section>
 
-      <div class="term mono" id="game">
-        <div class="term-top">
-          <div class="row-base"><span class="b-sym">JWBR/EUR</span><span class="px" data-bind="price">100.00</span></div>
-          <div class="stats">
-            <div><span class="k">Equity</span><span id="g-equity">€1,000.00</span></div>
-            <div><span class="k">Position</span><span id="g-pos">—</span></div>
-            <div><span class="k">Unrealised</span><span id="g-upnl">€0.00</span></div>
-            <div><span class="k">Goal</span><span>€1,200.00</span></div>
-          </div>
-        </div>
-        <div class="chart-wrap">
-          <canvas id="chart" aria-label="Live candlestick chart of JWBR/EUR" role="img"></canvas>
-          <div class="flash" id="g-flash" aria-live="polite"></div>
-        </div>
-        <div class="prog"><div class="prog-fill" id="g-prog"></div></div>
-        <div class="term-bottom">
-          <div class="status-col">
-            <span class="status" id="g-status">Pick a side. Stops at −€150 per trade.</span>
-            <span class="keys">Keys: <kbd>↑</kbd> long · <kbd>↓</kbd> short · <kbd>Space</kbd> close</span>
-          </div>
-          <div class="row">
-            <button class="tbtn tbtn-long" id="g-long">Long ↑</button>
-            <button class="tbtn tbtn-short" id="g-short">Short ↓</button>
-            <button class="tbtn tbtn-close" id="g-close" hidden>Close ×</button>
-            <button class="tbtn tbtn-ghost" id="g-reset" hidden>Play again</button>
-          </div>
-        </div>
-        <div class="fills" id="g-fills" hidden></div>
+  <!-- ============ WRITING ============ -->
+  <section class="writing wrap" id="writing">
+    <header class="sec-head sec-head-row rv">
+      <div><span class="cap dim">VII · Notes</span><h2 class="h-display">Writing</h2></div>
+      <div class="tabs" id="blog-tabs">
+        <button class="pill pill-tab is-active" data-filter="All">All</button>
+        <button class="pill pill-tab" data-filter="STOCH">Stoch</button>
+        <button class="pill pill-tab" data-filter="PROB">Prob</button>
+        <button class="pill pill-tab" data-filter="BTEST">Backtest</button>
       </div>
+    </header>
+    <div class="posts" id="posts">
+      <a href="#writing" class="post rv" data-sym="STOCH"><span class="cap dim">12 · 10 · 2026</span><span class="post-title">Where the extra term in Itô’s lemma comes from<span class="new">New</span></span><span class="cap dim">Stoch · 6 min</span></a>
+      <a href="#writing" class="post rv" data-sym="BTEST"><span class="cap dim">03 · 09 · 2026</span><span class="post-title">Why most backtests overfit</span><span class="cap dim">Backtest · 9 min</span></a>
+      <a href="#writing" class="post rv" data-sym="PROB"><span class="cap dim">15 · 08 · 2026</span><span class="post-title">The Kelly criterion in one page</span><span class="cap dim">Prob · 5 min</span></a>
+      <a href="#writing" class="post rv" data-sym="STOCH"><span class="cap dim">02 · 07 · 2026</span><span class="post-title">Brownian motion from random walks</span><span class="cap dim">Stoch · 7 min</span></a>
+    </div>
+  </section>
 
-      <div class="contacts">
-        <div class="contacts-head mono">
-          <span>Contact details</span>
-          <button class="link-btn mono" id="g-skip">Skip the game →</button>
+  <!-- ============ CONTACT: trade to unlock ============ -->
+  <section class="contact wrap" id="contact">
+    <h2 class="stagger rv">
+      <span>Trade to</span>
+      <span class="s-2">unlock my</span>
+      <span class="s-3">contact details</span>
+    </h2>
+    <p class="contact-sub">You have €1,000 at 20× leverage. Grow it to €1,200. Read the trend, pick a side, close when you like.</p>
+
+    <div class="term" id="game">
+      <div class="term-top">
+        <div class="term-sym"><span class="cap">JWBR / EUR</span><span class="px" data-bind="price">100.00</span></div>
+        <div class="stats">
+          <div><span class="cap dim">Equity</span><span id="g-equity">€1,000.00</span></div>
+          <div><span class="cap dim">Position</span><span id="g-pos">—</span></div>
+          <div><span class="cap dim">Unrealised</span><span id="g-upnl">€0.00</span></div>
+          <div><span class="cap dim">Goal</span><span>€1,200.00</span></div>
         </div>
-        <div id="contact-rows"></div>
       </div>
-    </section>
+      <div class="chart-wrap">
+        <canvas id="chart" aria-label="Live candlestick chart of JWBR/EUR" role="img"></canvas>
+        <div class="flash" id="g-flash" aria-live="polite"></div>
+      </div>
+      <div class="prog"><div class="prog-fill" id="g-prog"></div></div>
+      <div class="term-bottom">
+        <div class="status-col">
+          <span class="status" id="g-status">Pick a side. Stop-loss at −€150 per trade.</span>
+          <span class="keys">Keys: <kbd>L</kbd> long · <kbd>S</kbd> short · <kbd>X</kbd> close</span>
+        </div>
+        <div class="btns">
+          <button class="pill pill-wide pill-long" id="g-long">Long ↑</button>
+          <button class="pill pill-wide pill-short" id="g-short">Short ↓</button>
+          <button class="pill pill-wide" id="g-close" hidden>Close ×</button>
+          <button class="pill pill-wide pill-ghost" id="g-reset" hidden>Play again</button>
+        </div>
+      </div>
+      <div class="fills" id="g-fills" hidden></div>
+    </div>
 
-  </main>
+    <div class="cards cards-contact">
+      <div class="contacts-head"><span class="cap dim">Contact details</span><button class="link-btn cap" id="g-skip">Skip the game →</button></div>
+      <div id="contact-rows" class="contact-rows"></div>
+    </div>
+  </section>
 
-  <footer class="foot mono">
-    <span class="eyebrow-plain"><span class="dot dot-sm"></span>Connected · Jan Weber · Karlsruhe</span>
-    <span id="clock" class="nowrap">--:--:-- CET</span>
-  </footer>
-</div>
+</main>
 
+<!-- ============ FOOTER (poster bottom) ============ -->
+<footer class="foot">
+  <div class="wrap">
+    <p class="title title-foot" aria-hidden="true"><span class="tl tl-1">Jan</span><span class="tl tl-2">Weber</span></p>
+    <div class="foot-meta">
+      <p class="cap dim"><span class="live-dot"></span>Open to offers · Quant research<br>JWBR <span data-bind="quote">100.00</span></p>
+      <p class="cap dim foot-r">Karlsruhe, Germany<br>KIT · Mathematics<br><span id="clock">--:--:--</span></p>
+    </div>
+    <div class="bar bar-foot">
+      <a class="pill" href="#top">Back to top</a>
+      <span class="bar-line" aria-hidden="true"></span>
+      <a class="pill" href="#work">Work</a>
+      <a class="pill" href="#writing">Writing</a>
+      <a class="pill" href="#contact">Contact</a>
+    </div>
+    <canvas class="art eye" data-art="eye" aria-hidden="true"></canvas>
+  </div>
+</footer>
+
+<script src="js/art.js"></script>
 <script src="js/market.js"></script>
 <script src="js/main.js"></script>
 </body>

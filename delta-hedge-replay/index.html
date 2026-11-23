@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1b1a19">
+  <meta name="description" content="Vergleiche einen abgesicherten und einen ungesicherten Short Call auf demselben simulierten Kurspfad.">
+  <title>Delta Hedge Replay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="model.js"></script>
+  <script defer src="replay.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="nav-tab" href="https://janmweber.com/#work">Jan Weber</a>
+      <span class="header-rule" aria-hidden="true"></span>
+      <nav class="header-nav" aria-label="Seitennavigation">
+        <a class="nav-tab" href="#simulation">Replay</a>
+        <a class="nav-tab" href="#modell">Methodik</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero" aria-labelledby="title">
+      <p class="eyebrow"><span></span> Interaktives Optionslabor</p>
+      <h1 id="title"><span>Delta Hedge</span> <span>Replay</span></h1>
+      <p class="intro">Wie verändert Delta-Hedging den Gewinn und Verlust eines Short Calls? Spiele die Positionen auf demselben simulierten Kurspfad durch.</p>
+    </section>
+
+    <section class="workspace" id="simulation" aria-label="Interaktive Simulation">
+      <div class="charts">
+        <article class="panel chart-card">
+          <div class="chart-header">
+            <div>
+              <h2>Simulierter Kurs</h2>
+              <p>Basiswert in EUR</p>
+            </div>
+            <div class="chart-reading">
+              <output id="spot-value">—</output>
+              <span class="mono" id="spot-day">Tag 60</span>
+            </div>
+          </div>
+          <canvas id="price-chart" class="chart price-chart" role="img" aria-label="Kurs des Basiswerts mit Hedge-Anpassungen und Ausübungspreis"></canvas>
+          <div class="legend">
+            <span><i class="swatch price"></i>Kurs</span>
+            <span><i class="swatch marker"></i>Hedge-Handel</span>
+            <span><i class="swatch strike"></i>Strike 100 €</span>
+          </div>
+        </article>
+
+        <article class="panel chart-card">
+          <div class="chart-header">
+            <div>
+              <h2>Gewinn &amp; Verlust</h2>
+              <p>P&amp;L in EUR pro Short Call auf eine Aktie</p>
+            </div>
+          </div>
+          <canvas id="pnl-chart" class="chart pnl-chart" role="img" aria-label="P&L-Verlauf des abgesicherten und ungesicherten Short Calls"></canvas>
+          <div class="legend">
+            <span><i class="swatch hedged"></i>Abgesichert</span>
+            <span><i class="swatch unhedged"></i>Ungesichert</span>
+          </div>
+        </article>
+      </div>
+
+      <aside class="controls" aria-label="Steuerung und Ergebnisse">
+        <section class="panel control-card">
+          <h2>Replay einstellen</h2>
+          <div class="field">
+            <div class="field-label"><label for="interval">Hedge-Intervall</label><output for="interval" id="interval-value">5 Tage</output></div>
+            <input type="range" id="interval" min="1" max="20" value="5" step="1" aria-valuetext="5 Handelstage">
+            <div class="range-ends mono"><span>1 Tag</span><span>20 Tage</span></div>
+          </div>
+          <div class="field">
+            <div class="field-label"><label for="cost">Transaktionskosten</label><output for="cost" id="cost-value">10 bp</output></div>
+            <input type="range" id="cost" min="0" max="100" value="10" step="1" aria-valuetext="10 Basispunkte" aria-describedby="cost-hint">
+            <div class="range-ends mono"><span>0 bp</span><span>100 bp</span></div>
+            <p class="hint" id="cost-hint">Je Hedge-Handel auf den Gegenwert. 100 bp = 1 %.</p>
+          </div>
+          <div class="playback">
+            <div class="field-label"><label for="timeline">Zeitpunkt</label><output for="timeline" id="timeline-value" class="mono">60 / 60</output></div>
+            <input type="range" id="timeline" min="0" max="60" value="60" step="1" aria-valuetext="Tag 60 von 60">
+            <div class="buttons">
+              <button class="play-button" id="play" type="button"><span id="play-icon" class="play-icon" aria-hidden="true"></span><span id="play-label">Replay starten</span></button>
+              <button class="reset-button" id="reset" type="button" aria-label="Zum ersten Handelstag" title="Zum ersten Handelstag">↺</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel results-card" aria-labelledby="results-title">
+          <div class="result-heading">
+            <h2 id="results-title">P&amp;L am Verfall</h2>
+            <span id="result-day" class="mono day-tag">Tag 60</span>
+          </div>
+          <dl class="results">
+            <div><dt><i class="dot hedge-dot"></i>Abgesichert</dt><dd id="hedged-value">—</dd></div>
+            <div><dt><i class="dot nohedge-dot"></i>Ungesichert</dt><dd id="unhedged-value">—</dd></div>
+            <div class="cost-row"><dt>Gezahlte Handelskosten</dt><dd id="fees-value">—</dd></div>
+          </dl>
+        </section>
+      </aside>
+    </section>
+
+    <section class="model" id="modell" aria-labelledby="model-title">
+      <div>
+        <p class="eyebrow"><span></span> Methodik</p>
+        <h2 id="model-title">So rechnet das Replay</h2>
+      </div>
+      <div class="model-copy">
+        <p>Beide Positionen verkaufen einen europäischen Call mit Strike 100 € und 60 Handelstagen Laufzeit. Kurs und Delta des Calls werden vor Verfall nach Black-Scholes mit 25 % annualisierter Volatilität, 0 % Zins und ohne Dividenden berechnet. Der simulierte Kurs des Basiswerts ist für alle Einstellungen identisch.</p>
+        <p>Die abgesicherte Position hält Aktien in Höhe des Call-Deltas. Sie baut den Hedge an Tag 0 auf und passt ihn im gewählten Intervall an. Am Verfall wird der Call bar abgerechnet und der Aktienbestand verkauft. Das P&amp;L umfasst die vereinnahmte Prämie, den aktuellen Wert der offenen Positionen und alle bisherigen Handelskosten.</p>
+        <a href="https://ocw.mit.edu/courses/15-431-entrepreneurial-finance-spring-2011/087effe609c8c7c597ba8c92f86d11ec_MIT15_431S11_lec05.pdf">Black-Scholes · MIT OpenCourseWare</a>
+      </div>
+    </section>
+  </main>
+  <footer class="shell footer"><span>Delta Hedge Replay</span><span>Simulierte Marktdaten</span></footer>
+</body>
+</html>

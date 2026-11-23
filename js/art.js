@@ -45,7 +45,33 @@
     const n = [Math.cos(a) * N[0] + Math.sin(a) * B[0], Math.cos(a) * N[1] + Math.sin(a) * B[1], Math.cos(a) * N[2] + Math.sin(a) * B[2]];
     return [c[0] + r * n[0], c[1] + r * n[1], c[2] + r * n[2], n[0], n[1], n[2]];
   }
+  // price path of the Delta Hedge Replay (same anchors + daily variation as its model.js)
+  const HEDGE_PATH = (() => {
+    const A = [[0, 100], [5, 97.1], [10, 99.8], [15, 105.2], [20, 103.4], [24, 99.4], [30, 104.7], [34, 110.7], [40, 106.5], [45, 111.9], [50, 108.3], [54, 114.3], [58, 111.6], [60, 115.9]];
+    const out = [];
+    for (let k = 1; k < A.length; k++) {
+      const [d0, p0] = A[k - 1], [d1, p1] = A[k];
+      for (let d = d0; d < d1; d++) { const f = (d - d0) / (d1 - d0); out.push(p0 + (p1 - p0) * f + Math.sin(Math.PI * f) * (1.38 * Math.sin(d * 2.31) + 0.6 * Math.cos(d * 1.17))); }
+    }
+    out.push(115.9);
+    return out;
+  })();
+  const pathAt = t => { const x = Math.min(59.999, Math.max(0, t * 60)), i = Math.floor(x), f = x - i; return HEDGE_PATH[i] * (1 - f) + HEDGE_PATH[i + 1] * f; };
+  // ribbon of the price path + dashed strike line + diamond marker at day 0
+  function hedge(u, v) {
+    const X = t => (t - 0.5) * 4.2, Y = p => (p - 106) / 6, front = 0.75;
+    if (u < 0.74) { const t = u / 0.74; return [X(t), Y(pathAt(t)), (v - 0.5) * 2 * front]; }
+    if (u < 0.88) {
+      const t = (u - 0.74) / 0.14;
+      if (Math.floor(t * 26) % 2) return [X(t), Y(100), front];        // gap: zero area, never sampled
+      return [X(t), Y(100) + (v - 0.5) * 0.07, front];
+    }
+    const th = TAU * (u - 0.88) / 0.12, ph = Math.PI * v;
+    const x = Math.sin(ph) * Math.cos(th), y = Math.cos(ph), z = Math.sin(ph) * Math.sin(th), n = Math.abs(x) + Math.abs(y) + Math.abs(z) || 1, r = 0.27;
+    return [X(0) + (x / n) * r, Y(100) + (y / n) * r * 1.35, front + (z / n) * r];
+  }
   const SHAPES = {
+    hedge: { f: hedge, tilt: 0.42, zoom: 1.25, swing: 0.55, yaw0: -0.3 },
     trefoil: { closed: true, f: trefoil, tilt: 0.35 },
     mixture: { f: polar(3, (x, z) => 2.3 * g2(x, z, -0.9, -0.35, 0.72) + 1.55 * g2(x, z, 1.05, 0.55, 0.62) + 0.7 * g2(x, z, 0.3, -1.4, 0.5)), tilt: 0.7, zoom: 1.45 },
     bell: { f: polar(3, (x, z) => 2.8 * g2(x, z, 0, 0, 0.85)), tilt: 0.5, zoom: 1.1 },
@@ -89,9 +115,11 @@
         const c = cross(a, b);
         return { p, c, A: Math.hypot(c[0], c[1], c[2]) };
       };
-      let amax = 0;
-      for (let i = 0; i < 4000; i++) amax = Math.max(amax, area(r() * 0.9999, r() * 0.9999).A);
-      amax *= 1.1;
+      // robust max of the area element (ignores finite-difference spikes at piece boundaries)
+      const As = [];
+      for (let i = 0; i < 4000; i++) As.push(area(r() * 0.9999, r() * 0.9999).A);
+      As.sort((a, b) => a - b);
+      const amax = As[Math.floor(As.length * 0.985)] * 1.15;
       const P = new Float32Array(N * 3), Nn = new Float32Array(N * 3), T = new Float32Array(N);
       let n = 0, it = 0;
       while (n < N && it++ < N * 40) {
@@ -113,7 +141,8 @@
       if (!this.P) return;
       this.yaw += dt * this.speed;
       const { ctx, w, h, P, Nn, T, n, sh, X, Y, Z, B } = this;
-      const cy = Math.cos(this.yaw), sy = Math.sin(this.yaw), ta = sh.tilt || 0.3, ct = Math.cos(ta), st = Math.sin(ta);
+      const yaw = sh.swing ? sh.yaw0 + sh.swing * Math.sin(this.yaw) : this.yaw;
+      const cy = Math.cos(yaw), sy = Math.sin(yaw), ta = sh.tilt || 0.3, ct = Math.cos(ta), st = Math.sin(ta);
       const D = 3.6, S = Math.min(w, h) * 0.37 * (sh.zoom || 1), cx = w / 2, cyy = h / 2;
       const cell = 4, gw = Math.ceil(w / cell) + 1, gh = Math.ceil(h / cell) + 1;
       if (!this.zb || this.zb.length !== gw * gh) this.zb = new Float32Array(gw * gh);
